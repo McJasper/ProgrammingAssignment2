@@ -41,7 +41,7 @@ cacheSolve <- function(x, ...) {
     
     #If no it calculates the inverse via solve() and sets the inverse field
     if(is.null(xInverse)){
-        xInverse<-solve(x$get())
+        xInverse<-solve(x$get(), ...)
         x$setInverse(xInverse)
         print("Calculating matrix inverse...")
     }
