@@ -5,21 +5,27 @@
 ##functions necessary to manipulate its state.
 
 makeCacheMatrix <- function(x = matrix()) {
-    #establish a variable for assessing/returning the matrix inverse
-    m<-NULL
+    #Create a field to hold the matrix inverse
+    cachedInverse<-NULL
+    
     #Set function which sets the value of the matrix and resets the matrix inverse
     set<- function(y){
         x<<-y
-        m<<-NULL
+        cachedInverse <<- NULL
     }
+
     #get function which returns the matrix
     get<-function() x
-     #Set inverse variable value
-    setInverse<-function(xInverse){
-        m<-xInverse
+    
+     #Set for matrix inverse
+    setInverse<-function(invertedMatrix){
+        cachedInverse <<- invertedMatrix
     }
+    
     #gets matrix inverse and returns it
-    getInverse<-function() m
+    getInverse<-function() cachedInverse
+    
+    list(set = set, get = get, setInverse = setInverse, getInverse = getInverse)
     
 }
 
@@ -27,18 +33,30 @@ makeCacheMatrix <- function(x = matrix()) {
 ## Write a short comment describing this function
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
-    #Test to see if the matrix has a cached inverse
-    #extract inverse and set to testable variable
-    m<-x$getInverse()
-    #test if variable is empty or holds the matrix inverse
-    if(is.null(m)){
-        m<<-solve(x)
-        x$setInverse(m)
-        return(m)
+    ## Return a matrix that is the inverse of 'x'
+    #Assumes x is invertable without checks...
+    #First, checks to see if the matrix has a cached inverse
+
+    xInverse<-x$getInverse()
+    
+    #If no it calculates the inverse via solve() and sets the inverse field
+    if(is.null(xInverse)){
+        xInverse<-solve(x$get())
+        x$setInverse(xInverse)
+        print("Calculating matrix inverse...")
     }
+    #If yes, it extracts the inverse and returns it
     else{
         print("Getting cached matrix inverse...")
-        return(m)
     }
+    return(xInverse)
 }
+
+# testMatrix <- makeCacheMatrix()
+# testMatrix$set(matrix(c(1,0,0,0,1,0,0,0,1), ncol = 3))
+# testMatrix$get()
+# 
+# cacheSolve(testMatrix)
+# # Returns calculated matrix
+# cacheSolve(testMatrix)
+# # Returns cached matrix
