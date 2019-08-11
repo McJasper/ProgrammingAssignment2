@@ -1,8 +1,10 @@
 ## Put comments here that give an overall description of what your
 ## functions do
 
-##makeCacheMatrix constructs the matrix object and has the handler
-##functions necessary to manipulate its state.
+##makeCacheMatrix constructs a matrix object and has the handler
+##functions necessary to manipulate its state.  The matrix object
+##has fields for holding a matrix and it's inverse, as well as the
+##helper functions necessary to access and alter the fields.
 
 makeCacheMatrix <- function(x = matrix()) {
     #Create a field to hold the matrix inverse
@@ -31,6 +33,11 @@ makeCacheMatrix <- function(x = matrix()) {
 
 
 ## Write a short comment describing this function
+
+##cacheSolve is a helper function that checks a makeCacheMatrix object
+##for an existing inverse.  If one exists, it returns the cached inverse.
+##If not, it calculates the inverse using solve(...), caches the result, 
+## and returns it.
 
 cacheSolve <- function(x, ...) {
     ## Return a matrix that is the inverse of 'x'
